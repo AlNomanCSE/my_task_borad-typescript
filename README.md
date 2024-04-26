@@ -1,8 +1,6 @@
 <br/>
 <div align="center">
-<a href="https://github.com/ShaanCoding/ReadME-Generator">
-<img src="https://stiltsoft.com/wp-content/uploads/2022/10/pandadoc1.png" alt="Logo" width="80" height="80">
-</a>
+
 <h3 align="center">My Task Board</h3>
 <p align="center">
 Streamline Your Tasks with Ease: Your Task Board Solution!
@@ -12,7 +10,7 @@ Streamline Your Tasks with Ease: Your Task Board Solution!
 
 ## About The Project
 
-![Product Screenshot](https://www.jotform.com/blog/wp-content/uploads/2022/02/35-Task-list-App.png)
+![Product Screenshot](Capture.JPG)
 
 The Task Board application is a straightforward task management system designed to facilitate the organization and management of tasks. It provides users with essential functionalities such as creating, reading, updating, and deleting tasks, implemented through HTTP methods like GET, POST, PUT, and DELETE.
 
