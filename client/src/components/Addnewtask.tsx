@@ -1,7 +1,13 @@
 import { IoAddCircle } from "react-icons/io5";
-const Addnewtask = () => {
+import { MouseEventHandler } from "react";
+const Addnewtask = (props: {
+  onClick: MouseEventHandler<HTMLDivElement>;
+}) => {
   return (
-    <div className="bg-blue-300 flex items-center justify-between gap-12 border px-6 py-3 rounded-lg w-[500px] cursor-pointer">
+    <div
+      className="bg-blue-300 flex items-center justify-between gap-12 border px-6 py-3 rounded-lg w-[500px] cursor-pointer"
+      onClick={props.onClick}
+    >
       <div className="bg-white p-2 rounded-lg">
         <img
           width="35"
