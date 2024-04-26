@@ -6,6 +6,7 @@ import Completed from "./components/Completed";
 import Heading from "./components/Heading";
 import Progress from "./components/Progress";
 import Taskwillnotdo from "./components/Taskwillnotdo";
+
 type InputsType = {
   title: string;
   details: string;
@@ -20,14 +21,23 @@ export default function App() {
   function handleClick() {
     setIsOpen(!isOpen);
   }
-  const onSubmit: SubmitHandler<InputsType> = (data: InputsType) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<InputsType> = async (data: InputsType) => {
+    await fetch("http://localhost:5000/create", {
+      method: "POST",
+      body: JSON.stringify({
+        title: data.title,
+        details: data.details,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
-    <section className="h-screen flex items-center justify-center">
+    <section className="h-screen flex items-center justify-center bg-black">
       <div className="bg-gradient rounded-lg p-[3px]">
-        <div className="p-[100px] bg-white rounded-lg flex items-center flex-col gap-6 relative overflow-hidden">
+        <div className="p-[100px] bg-slate-900 rounded-lg flex items-center flex-col gap-6 relative overflow-hidden ">
           <Heading />
           <Progress />
           <Completed />
