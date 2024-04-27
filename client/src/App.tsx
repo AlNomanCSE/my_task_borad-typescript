@@ -66,6 +66,7 @@ export default function App() {
       const response = await fetch("http://localhost:5000/todos");
       const data: DataType[] = await response.json();
       setTodos(data);
+      setDoneTodos(data.filter((datum) => datum.done === true));
     }
     fatchData();
   }, []);
@@ -88,6 +89,8 @@ export default function App() {
   }
 
   //?--------------- UPDATE one Property of TODO by ID -----------//
+  //*------------ Done Task ---------------//
+
   async function handleDone(id: string): Promise<void> {
     try {
       const response = await fetch(`http://localhost:5000/updatedone/${id}`, {
@@ -103,11 +106,13 @@ export default function App() {
         const errorMassage = await response.text();
         throw new Error(errorMassage || "Failed to Update todo");
       }
-      setDoneTodos(todos.filter((detum) => detum.done == true));
+      // const updatedTodo = await response.json();
+      // setDoneTodos((prev) => [...prev, updatedTodo]);
     } catch (error) {
       console.error("Error Updating ...");
     }
   }
+  console.log(doneTodos);
 
   return (
     <section className="h-screen flex items-center justify-center bg-black">

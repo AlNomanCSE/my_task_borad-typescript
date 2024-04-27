@@ -43,7 +43,7 @@ app.put(
     try {
       const updatedTodo = await TodoModel.findByIdAndUpdate(
         { _id: id },
-        { done },
+        { done: done },
         { new: true }
       );
       if (!updatedTodo)
