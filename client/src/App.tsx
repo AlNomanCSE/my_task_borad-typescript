@@ -51,6 +51,9 @@ export default function App() {
         "Content-Type": "application/json",
       },
     });
+    const response = await fetch("http://localhost:5000/todos");
+    const Data: DataType[] = await response.json();
+    setTodos(Data);
     reset();
     setIsAlertVisible(true);
     setTimeout(() => {
@@ -63,7 +66,6 @@ export default function App() {
       const response = await fetch("http://localhost:5000/todos");
       const data: DataType[] = await response.json();
       setTodos(data);
-      setDoneTodos(data.filter((datum) => datum.done === true));
     }
     fatchData();
   }, []);
@@ -79,6 +81,7 @@ export default function App() {
         throw new Error(errorMassage || "Failed to delet todo");
       }
       setTodos((prev) => prev.filter((todo) => todo._id !== id));
+      setDoneTodos((prev) => prev.filter((todo) => todo._id !== id));
     } catch (error) {
       console.error("Error deleting todo:");
     }
