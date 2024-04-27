@@ -8,10 +8,13 @@ import Completed from "./components/Completed";
 import Heading from "./components/Heading";
 import Progress from "./components/Progress";
 import TaskList from "./components/TaskList";
+import { Link } from "react-router-dom";
 
-type InputsType = {
-  title: string;
+type DataType = {
+  __v: number;
+  _id: string;
   details: string;
+  title: string;
 };
 export default function App() {
   const {
@@ -19,11 +22,11 @@ export default function App() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<InputsType>();
+  } = useForm<DataType>();
   const [isTaskOpen, setIsTaskOpen] = useState<boolean>(false);
   const [isListOpen, setIsListOpen] = useState<boolean>(false);
   const [isAlertVisible, setIsAlertVisible] = useState<boolean>(false);
-  const [todos, setTodos] = useState<InputsType[]>([]);
+  const [todos, setTodos] = useState<DataType[]>([]);
   function handleClickTask() {
     setIsTaskOpen(!isTaskOpen);
   }
@@ -31,8 +34,8 @@ export default function App() {
     setIsListOpen(!isListOpen);
   }
 
-  const onSubmit: SubmitHandler<InputsType> = async (data: InputsType) => {
-    await fetch("http://localhost:5000/create", {
+  const onSubmit: SubmitHandler<DataType> = async (data: DataType) => {
+    await fetch("http://localhost:5000/todo/create", {
       method: "POST",
       body: JSON.stringify({
         title: data.title,
@@ -50,13 +53,26 @@ export default function App() {
   };
   useEffect(() => {
     async function fatchData() {
-      const response = await fetch("http://localhost:5000/");
+      const response = await fetch("http://localhost:5000/todos");
       const data = await response.json();
       setTodos(data);
     }
     fatchData();
   }, []);
-
+  async function handelete(id: string): Promise<void> {
+    try {
+      const response = await fetch(`http://localhost:5000/todos/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        const errorMassage = await response.text();
+        throw new Error(errorMassage || "Failed to delet todo");
+      }
+      setTodos((prev) => prev.filter((todo) => todo._id !== id));
+    } catch (error) {
+      console.error("Error deleting todo:");
+    }
+  }
   return (
     <section className="h-screen flex items-center justify-center bg-black">
       <div className="bg-gradient rounded-lg p-[3px]">
@@ -76,8 +92,27 @@ export default function App() {
             <div className="bg-gradient absolute right-0 h-full top-0 w-3/5 p-2">
               {todos.map((todo, index) => (
                 <div key={index} className="border rounded-lg p-2 my-2 mx-4">
-                  <div className="font-bold">{todo.title}</div>
+                  <div className="font-bold flex justify-between">
+                    <p> {todo.title}</p>
+                    <img
+                      width="0"
+                      height="0"
+                      src="https://img.icons8.com/external-soft-fill-juicy-fish/60/external-edit-websites-soft-fill-soft-fill-juicy-fish.png"
+                      alt="external-edit-websites-soft-fill-soft-fill-juicy-fish"
+                      className="w-[23px] object-contain"
+                    />
+                  </div>
                   <div className="font-extralight">{todo.details}</div>
+                  <div className="flex  justify-end">
+                    <img
+                      width="30"
+                      height="30"
+                      src="https://img.icons8.com/plasticine/100/filled-trash.png"
+                      alt="filled-trash"
+                      onClick={() => handelete(todo._id)}
+                      className="cursor-pointer"
+                    />
+                  </div>
                 </div>
               ))}
             </div>

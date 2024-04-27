@@ -14,7 +14,7 @@ interface TodoRequestBodyType {
 }
 
 app.post(
-  "/create",
+  "/todo/create",
   async (req: Request<any, any, TodoRequestBodyType>, res: Response) => {
     const newTodo = await TodoModel.create({
       title: req.body.title,
@@ -24,7 +24,23 @@ app.post(
   }
 );
 
-app.get("/", async (req: Request, res: Response) => {
+app.delete(
+  "/todos/:id",
+  async (req: Request<{ id: string }>, res: Response) => {
+    const id: string = req.params.id;
+
+    try {
+      const deletedTodo = await TodoModel.findByIdAndDelete({ _id: id });
+      if (!deletedTodo)
+        res.status(404).send({ error: "No todo Found with this id" });
+      else res.status(200).send(deletedTodo);
+    } catch (error) {
+      res.status(500).send({ error: "Server Error ...!" });
+    }
+  }
+);
+
+app.get("/todos", async (req: Request, res: Response) => {
   const response = await TodoModel.find({});
   res.json(response);
 });

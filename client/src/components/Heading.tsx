@@ -7,9 +7,9 @@ const Heading = () => {
         <FaLayerGroup className="text-amber-300 text-2xl" />
         <div className="flex flex-col items-center">
           <h1 className="font-semibold text-3xl tx-gradient">My Task Board</h1>
-          <p>Task to keep organised</p>
+          <p className="text-gray-500">Task to keep organised</p>
         </div>
-        <FaPencilAlt />
+        <FaPencilAlt  className="text-white"/>
       </div>
     </div>
   );
