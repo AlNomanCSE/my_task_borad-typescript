@@ -1,7 +1,11 @@
+import { MouseEventHandler } from "react";
 import { MdFileDownloadDone } from "react-icons/md";
-const Completed = () => {
+const Completed = (props: { onClick: MouseEventHandler<HTMLDivElement> }) => {
   return (
-    <div className="bg-green-300 flex items-center justify-between gap-12 border px-6 py-3 rounded-lg w-[500px] cursor-pointer">
+    <div
+      onClick={props.onClick}
+      className="bg-green-300 flex items-center justify-between gap-12 border px-6 py-3 rounded-lg w-[500px] cursor-pointer"
+    >
       <div className="bg-white p-2 rounded-lg">
         <img src="./lifting.png" alt="" width={35} />
       </div>
